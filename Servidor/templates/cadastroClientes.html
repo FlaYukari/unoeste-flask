@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-
 {% block title %}
     Cadastro de Clientes
 {% endblock %}
-
 {% block content %}
 <form class="m-2 p-3">
     <fieldset class="border p-4">
@@ -21,35 +19,60 @@
                 <input type="text" class="form-control" id="nomePet" name="nomePet"/>
             </div>
             <div class="m-2 col-4">
-                <label for="especiePet" class="form-label">Espécie:</label>
-                <input type="text" class="form-control" id="especiePet" name="especiePet"/>
-                <div id="codigoHelp" class="form-text">Exemplo: Canino, Felino, Bovino, etc.</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="m-2 col-4">
-                <label for="racaPet" class="form-label">Raça:</label>
-                <input type="text" class="form-control" id="racaPet" name="racaPet"/>
+                <label for="rgCliente" class="form-label">Registro Geral (RG):</label>
+                <input type="text" class="form-control" id="rgCliente" name="rgCliente"/>
             </div>
             <div class="m-2 col-4">
-                <label for="corPet" class="form-label">Cor:</label>
-                <input type="text" class="form-control" id="corPet" name="corPet"/>
+                <label for="cpfCliente" class="form-label">Código de Pessoa Física (CPF):</label>
+                <input type="text" class="form-control" id="cpfCliente" name="cpfCliente"/>
             </div>
             <div class="m-2 col-4">
                 <label for="dataNascCliente" class="form-label">Data de Nascimento:</label>
                 <input type="date" class="form-control" id="dataNascPet" name="dataNascCliente"/>
             </div>
         </div>
+
+        <div class="row">
+            <div class="m-2 col-4">
+                <label for="endereco" class="form-label">Endereço:</label>
+                <input type="text" class="form-control" id="endereco" name="endereco"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="numero" class="form-label">Número:</label>
+                <input type="text" class="form-control" id="numero" name="numero"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="comp" class="form-label">Complemento:</label>
+                <input type="text" class="form-control" id="comp" name="comp"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="bairro" class="form-label">bairro:</label>
+                <input type="text" class="form-control" id="bairro" name="bairro"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="cep" class="form-label">CEP:</label>
+                <input type="text" class="form-control" id="cep" name="cep"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="cidade" class="form-label">Cidade:</label>
+                <input type="text" class="form-control" id="cidade" name="cidade"/>
+            </div>
+            <div class="m-2 col-4">
+                <label for="uf" class="form-label">UF:</label>
+                <input type="text" class="form-control" id="uf" name="uf"/>
+            </div>
+        </div>
         
         <div class="row">
             <div class="m-2 col-4">
-                <label for="microchipPet" class="form-label">N° Microchip:</label>
-                <input type="text" class="form-control" id="microchipPet" name="microchipPet"/>
+                <label for="foneFixo" class="form-label">N° Telefone Fixo:</label>
+                <input type="text" class="form-control" id="foneFixo" name="foneFixo"/>
             </div>
             <div class="m-2 col-4">
-                <label for="rgCliente" class="form-label">Registro Geral (RG):</label>
-                <input type="text" class="form-control" id="rgCliente" name="rgCliente"/>
+                <label for="foneCelular" class="form-label">N° Celular:</label>
+                <input type="text" class="form-control" id="foneCelular" name="foneCelular"/>
             </div>
+
         </div>
         <div class="row">
             <div class="col-1 offset-5">
