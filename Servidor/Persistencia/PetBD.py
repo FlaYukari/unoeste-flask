@@ -46,3 +46,46 @@ class PetBD(object):
                 cursor.execute("""
                     UPDATE Pet SET nome = ?, especie = ?, raca = ?, cor = ?, dataNasc = ?, numMicrochip = ?, rga = ? WHERE  codigo = ?
                 """, (pet.nome, pet.especie, pet.raca, pet.cor, pet.dataNasc, pet.numMicrochip, pet.rga, pet.codigo ))
+                con.commit()
+
+
+    def apagar(self, pet):
+        if isinstance(pet, Pet):
+            with self.__conexa as con:
+                cursor = con.cursos()
+                cursor.execute("""
+                    DELETE FROM Pet WHERE codigo = ?
+                """, [pet.codigo])
+                con.commit()
+
+
+    def consultar(self, termo):
+        if isinstance(termo, int):
+            #consultando pelo código do Pet
+            with self.__conexao as con:
+                cursor = con.cursor()
+                cursor.execute("""
+                    SELECT codigo, nome, especie, raca, cor, dataNasc, numMicrochip, rga FROM Pet
+                    WHERE codigo = ?
+                """)
+                resultado = cursor.fetchone()
+                if resultado:
+                    pet = Pet(resultado[0], resultado[1], resultado[2], resultado[3], resultado[4], resultado[5], resultado[6], resultado[7])
+                    return pet
+                else:
+                    None
+        elif isinstance(termo, str):
+            with self.__conexao as con:
+                cursor = con.cursor()
+                cursor.execute("""
+                    SELECT codigo, nome, especie, raca, cor, dataNasc, numMicrochip, rga FROM Pet
+                    WHERE nome like ?
+                """, ["%" + termo + "%"])
+                resultados = cursor.fetchall()
+                listaPets = []
+                for resultado in resultados:
+                    pet = Pet(resultado[0], resultado[1], resultado[2], resultado[3], resultado[4], resultado[5], resultado[6], resultado[7])
+                    listaPets.append(pet)
+                return listaPets
+        else:
+            return None
