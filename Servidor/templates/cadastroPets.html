@@ -59,4 +59,9 @@
         </div>
     </fieldset>
 </form>
+<div>
+    {% for mensagem in get_flashed_messages() %}
+    <p class="alert alert-danger">{{mensagem}}</p>
+    {% endfor %}
+  </div>  
 {% endblock %}

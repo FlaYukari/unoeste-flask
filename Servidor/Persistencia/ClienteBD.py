@@ -2,7 +2,7 @@
 # classe responsavel por incluir o cliente no BD.
 
 #As classes armazenadas na pasta Persistencia possuirão a responsabilidade de se comunicar com o banco de dados.
-from Modelo.Cliente import Cliente
+from Servidor.Modelo.Cliente import Cliente
 import sqlite3
 
 caminhoBancoDeDados = 'C:/Users/flayu/OneDrive/Curso/UNOESTE/2022-1 bimestre/internet/projetoweb/Servidor/Persistencia/dados/BancoDeDados.db'

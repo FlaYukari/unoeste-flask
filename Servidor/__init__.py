@@ -1,6 +1,10 @@
 from flask import Flask, render_template, session, request, flash
-from Modelo import Pet, Cliente #6
-from Persistencia import PetBD #7
+from Modelo.Pet import Pet #6
+from Servidor.Modelo.Cliente import Cliente #6
+from Servidor.Persistencia.PetBD import PetBD #7
+from Servidor.Persistencia.ClienteBD import ClienteBD #7
+from Servidor.Utilitarios.metodosAuxiliares import ehvalidoDadosPet
+from Servidor.Utilitarios.metodosAuxiliares import ehvalidoDadosCliente
 
 app = Flask(__name__)
 
@@ -59,7 +63,6 @@ def cadCliente():
         elif request.method == "POST": # quer submeter os dados para o servidor, quer consultar dados, recuperar dados vindos do formulário
             #5-pass
             #nome, rg, cpf, dataNasc, endereco, num, complemento, bairro, cep, cidade, uf, telFixo, telCel
-            codigoCliente       = request.form['codigoCliente']
             nomeCliente         = request.form['nomeCliente']
             rgCliente      = request.form['rgCliente']
             cpfCliente         = request.form['cpfCliente']
@@ -74,11 +77,17 @@ def cadCliente():
             telFixoCliente      = request.form['telFixoCliente']
             telCelCliente      = request.form['telCelCliente']
             
-            #PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS
             novoCliente = Cliente(0, nomeCliente, rgCliente, cpfCliente, dataNascCliente, enderecoCliente, numCliente, complementoCliente, bairroCliente, cepCliente, cidadeCliente, ufCliente, telFixoCliente, telCelCliente) #6-importou
 
-            ClienteBD = ClienteBD() #7-importou
-            ClienteBD.incluir(novoCliente) #7-importou
+            #7PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS
+            
+            if ehvalidoDadosCliente(novoCliente):
+                clienteBD = ClienteBD() #7-importou
+                clienteBD.incluir(novoCliente) #7-importou
+                return render_template('cadastroClientes.html')
+            else:
+                flash('Os dados informados estão inválidos.')
+                return render_template('cadastroClientes.html')
     else:
         return render_template('login.html')
 
@@ -95,7 +104,6 @@ def cadPet():
         elif request.method == "POST": # quer submeter os dados para o servidor, quer consultar dados, recuperar dados vindos do formulário
             #5-pass
             #nome, especie, raca, cor, dataNasc, numMicrochip, rga
-            codigoPet       = request.form['codigoPet']
             nomePet         = request.form['nomePet']
             especiePet      = request.form['especiePet']
             racaPet         = request.form['racaPet']
@@ -104,11 +112,17 @@ def cadPet():
             numMicrochipPet = request.form['numMicrochipPet']
             rgaPet          = request.form['rgaPet']
 
-            #PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS
             novoPet = Pet(0, nomePet, especiePet, racaPet, corPet, dataNascPet,         numMicrochipPet, rgaPet) #6-importou
-
-            petBD = PetBD() #7-importou
-            petBD.incluir(novoPet) #7-importou
+     
+            #7-PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS ->criacao da parta metodosAuxiliares
+            if ehvalidoDadosPet(novoPet):
+                petBD = PetBD() #7-importou
+                petBD.incluir(novoPet) #7-importou
+                return render_template('cadastroPets.html')
+            else:
+                flash('Os dados informados estão inválidos.')
+                return render_template('cadastroPets.html')
+            
     else:
         return render_template('login.html')
 
