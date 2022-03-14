@@ -1,18 +1,23 @@
 from flask import Flask, render_template, session, request, flash
+from Modelo import Pet, Cliente #6
+from Persistencia import PetBD #7
 
 app = Flask(__name__)
 
 app.secret_key = "minha chave secreta"
 
-def verificarUsuarioAutenticado(pagina): #1- servidor que tem que controlar se o usuário está ou não autenticado, de forma individual e não global
+def verificarUsuarioAutenticado(): #1- servidor que tem que controlar se o usuário está ou não autenticado, de forma individual e não global
     #2-verificar se o id do usuário está armazenado na sessão
+    #3-retorna Verdadeiro ou Falso
     if session.get('id_usuario') !=None:
-        return render_template(pagina)
+        #4-return render_template(pagina). pagina estava no def()
+        return True
     else:
-        return render_template('login.html')
+        #4-return render_template('login.html')
+        return False
     
 
-#riqueisição do tipo GET ou POST
+#riquisição do tipo GET ou POST
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -29,37 +34,98 @@ def login():
             flash("Autenticação negada!")
             return render_template('login.html')
 
-
+#requisição
 @app.route("/menu")
 def menu():
     #se o usuário estiver autenticado, então mostre a página menu.html
-    return verificarUsuarioAutenticado('menu.html') #2
+    #4-return verificarUsuarioAutenticado('menu.html') #2
     #2-return render_template('menu.html')
     #senão mostre ao usuário a págia login.html
+    if verificarUsuarioAutenticado(): #4
+        return render_template('menu.html')
+    else:
+        return render_template('login.html')
 
-
+#requisição
 @app.route("/cadastroCliente")
 def cadCliente():
     #se o usuário estiver autenticado, então mostre a página menu.html
-    return verificarUsuarioAutenticado('cadastroClientes.html') #2
+    #4-return verificarUsuarioAutenticado('cadastroClientes.html') #2
     #2-return render_template('cadastroClientes.html')
     #senão mostre ao usuário a págia login.html
+    if verificarUsuarioAutenticado(): #4
+        if request.method == "GET": # quer consultar a página
+            return render_template('cadastroClientes.html')
+        elif request.method == "POST": # quer submeter os dados para o servidor, quer consultar dados, recuperar dados vindos do formulário
+            #5-pass
+            #nome, rg, cpf, dataNasc, endereco, num, complemento, bairro, cep, cidade, uf, telFixo, telCel
+            codigoCliente       = request.form['codigoCliente']
+            nomeCliente         = request.form['nomeCliente']
+            rgCliente      = request.form['rgCliente']
+            cpfCliente         = request.form['cpfCliente']
+            dataNascCliente     = request.form['dataNascCliente']
+            enderecoCliente          = request.form['enderecoCliente']
+            numCliente = request.form['numCliente']
+            complementoCliente          = request.form['complementoCliente']
+            bairroCliente      = request.form['bairroCliente']
+            cepCliente      = request.form['cepCliente']
+            cidadeCliente      = request.form['cidadeCliente']
+            ufCliente      = request.form['ufCliente']
+            telFixoCliente      = request.form['telFixoCliente']
+            telCelCliente      = request.form['telCelCliente']
+            
+            #PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS
+            novoCliente = Cliente(0, nomeCliente, rgCliente, cpfCliente, dataNascCliente, enderecoCliente, numCliente, complementoCliente, bairroCliente, cepCliente, cidadeCliente, ufCliente, telFixoCliente, telCelCliente) #6-importou
+
+            ClienteBD = ClienteBD() #7-importou
+            ClienteBD.incluir(novoCliente) #7-importou
+    else:
+        return render_template('login.html')
 
 
 @app.route("/cadastroPet")
 def cadPet():
     #se o usuário estiver autenticado, então mostre a página menu.html
-    return verificarUsuarioAutenticado('cadastroPets.html') #2
+    #4-return verificarUsuarioAutenticado('cadastroPets.html') #2
     #2-return render_template('cadastroPets.html')
     #senão mostre ao usuário a págia login.html
+    if verificarUsuarioAutenticado(): #4
+        if request.method == "GET": # quer obter a página
+            return render_template('cadastroPets.html')
+        elif request.method == "POST": # quer submeter os dados para o servidor, quer consultar dados, recuperar dados vindos do formulário
+            #5-pass
+            #nome, especie, raca, cor, dataNasc, numMicrochip, rga
+            codigoPet       = request.form['codigoPet']
+            nomePet         = request.form['nomePet']
+            especiePet      = request.form['especiePet']
+            racaPet         = request.form['racaPet']
+            corPet          = request.form['corPet']
+            dataNascPet     = request.form['dataNascPet']
+            numMicrochipPet = request.form['numMicrochipPet']
+            rgaPet          = request.form['rgaPet']
+
+            #PRECISAMOS CONDICIONAR A INCLUSÃO DE UM NOVO PET DESDE QUE OS DADOS ESTEJAM VALIDADOS
+            novoPet = Pet(0, nomePet, especiePet, racaPet, corPet, dataNascPet,         numMicrochipPet, rgaPet) #6-importou
+
+            petBD = PetBD() #7-importou
+            petBD.incluir(novoPet) #7-importou
+    else:
+        return render_template('login.html')
 
 
 @app.route("/cadastroProduto")
 def cadProduto():
     #se o usuário estiver autenticado, então mostre a página menu.html
-    return verificarUsuarioAutenticado('cadastroProdutos.html') #2
+    #4-return verificarUsuarioAutenticado('cadastroProdutos.html') #2
     #2-return render_template('cadastroProdutos.html')
     #senão mostre ao usuário a págia login.html
+    if verificarUsuarioAutenticado(): #4
+        if request.method == "GET": # quer consultar a página
+            return render_template('cadastroProdutos.html')
+        elif request.method == "POST": # quer submeter os dados para o servidor, quer gravar dados
+            pass
+    else:
+        return render_template('login.html')
 
 
 @app.route("/logout")

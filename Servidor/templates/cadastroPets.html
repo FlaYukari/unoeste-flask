@@ -3,13 +3,13 @@
     Cadastro de Pet
 {% endblock %}
 {% block content %}
-<form class="m-2 p-3">
+<form class="m-2 p-3" method="POST" action="{{url_for('cadPet')}}"> <!--aqui o método POST indica que vc quer cadastrar, a action indica no arquivo __init__.py qual a função que será acionada: def cadPet.-->
     <fieldset class="border p-4">
         <legend>Dados do PET</legend>
         <div class="row">
             <div class="m-2 col-2">
                 <label for="codigoPet" class="form-label">Código:</label>
-                <input type="text" class="form-control" id="codigo" name="codigo" disabled/>
+                <input type="text" class="form-control" id="codigoPet" name="codigoPet" disabled/>
                 <div id="codigoHelp" class="form-text">Valor gerado automaticamente pelo sistema.</div>
             </div>
         </div>
