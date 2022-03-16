@@ -27,7 +27,7 @@ class ClienteBD(object):
                 cidade TEXT NOT NULL,
                 uf TEXT NOT NULL,
                 telFixo TEXT NOT NULL,
-                telCel TEXT NOT NULL
+                telCel TEXT NOT NULL 
             )
             """)
             con.commit()
